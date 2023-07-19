@@ -1,0 +1,13 @@
+
+<launch>
+    <arg name="simulate_joints" default="false"/>
+    <param name ="/use_sim_time" value="false"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find kmr_iiwa_carlos)/kmr_iiwa_urdf/urdf/kmriiwa_carlos.urdf'" />
+
+    <param name="use_gui" value="true"/>
+
+     <rosparam param="source_list">[/joint_states]</rosparam>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find kmr_iiwa_carlos)/rviz/kuka_kmr.rviz" />
+</launch>

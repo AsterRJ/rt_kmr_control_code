@@ -1,0 +1,41 @@
+#!/usr/bin/env python3
+"""
+      @author   Carlos Suarez Zapico carlossuarezzapico@gmail.com
+ 
+      @internal
+      Created  7-Dec-2022
+      Company  Edinburgh Centre for Robotics
+      Program; Interaction Pipe with PSO optimization 
+"""
+
+
+# Standard imports
+import sys
+import rospy
+import multiprocessing
+
+sys.path.append("/home/medusa/catkin_ws/src/kmr_iiwa_carlos/scripts/kmr_iiwa/core")
+
+from processes.IPC_processes_kuka import IPC_kuka_sharedVariables
+from processes.teleoperation_kuka_processes import teleop_process
+
+# MAIN 
+if __name__ == "__main__":
+    myargs = rospy.myargv(argv=sys.argv)	
+    IPC = IPC_kuka_sharedVariables()
+    IPC.sharedWeightsVehicle[0] = 0#10000000000000000000
+    IPC.sharedWeightsVehicle[1] = 0#10000000000000000000
+    IPC.sharedWeightsVehicle[2] = 0#10000000000000000000
+    teleop = teleop_process()
+ 
+        
+    #Select Processes
+    publish_thread   = multiprocessing.Process(target = teleop.pub_teleop_primary_secondary)
+    teleop_thread  = multiprocessing.Process(target = teleop.teleop_thread)
+    teleop_secondary_thread  = multiprocessing.Process(target = teleop.teleop_secondary_thread)
+    
+    #Start Processes
+    publish_thread.start()    
+    teleop_thread.start()
+    teleop_secondary_thread.start()
+    

@@ -1,0 +1,62 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/medusa/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/opt/openrobots/include/**",
+        "/home/medusa/catkin_ws/src/hokuyo_node/include/**",
+        "/home/medusa/kuka_ws/src/kmr_iiwa_carlos/include/**",
+        "/home/medusa/catkin_ws/src/laser_odometry/laser_odometry_core/include/**",
+        "/home/medusa/catkin_ws/src/laser_odometry/laser_odometry_node/include/**",
+        "/home/medusa/catkin_ws/src/laser_odometry_rf2o/include/**",
+        "/home/medusa/catkin_ws/src/mobile_robots_15/include/**",
+        "/home/medusa/catkin_ws/src/mobile_robots_16/include/**",
+        "/home/medusa/catkin_ws/src/mobile_robots_pc/include/**",
+        "/home/medusa/catkin_ws/src/mobile_robots_pc_20/include/**",
+        "/home/medusa/catkin_ws/src/mobile_robots_pc_22/include/**",
+        "/home/medusa/catkin_ws/src/myactuator/include/**",
+        "/home/medusa/catkin_ws/src/ndt_interface/include/**",
+        "/home/medusa/catkin_ws/src/netft_rdt_driver/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_12/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_16/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_17/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_18/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_21/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_46/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_48/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_49/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_50/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_53/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_56/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_59/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_62/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_63/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_64/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_69/include/**",
+        "/home/medusa/catkin_ws/src/rbkairos_laptop_clean/include/**",
+        "/home/medusa/catkin_ws/src/rf2o_laser_odometry/include/**",
+        "/home/medusa/catkin_ws/src/robotiq/robotiq_2f_gripper_action_server/include/**",
+        "/home/medusa/catkin_ws/src/robotiq/robotiq_2f_gripper_control/include/**",
+        "/home/medusa/catkin_ws/src/robotiq/robotiq_3f_gripper_control/include/**",
+        "/home/medusa/catkin_ws/src/robotiq/robotiq_ethercat/include/**",
+        "/home/medusa/catkin_ws/src/robotiq/robotiq_ft_sensor/include/**",
+        "/home/medusa/catkin_ws/src/rosserial/rosserial_server/include/**",
+        "/home/medusa/catkin_ws/src/rosserial/rosserial_test/include/**",
+        "/home/medusa/catkin_ws/src/slider_ft/include/**",
+        "/home/medusa/catkin_ws/src/test_integration/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
