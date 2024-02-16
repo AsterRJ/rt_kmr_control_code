@@ -7,31 +7,50 @@
 #include <kdl/treejnttojacsolver.hpp>
 #include <kdl/chainjnttojacsolver.hpp>
 #include <eigen3/Eigen/QR>    
-#include <urdf/model.h> // urdf::Model
+#include <urdf/model.h>
 #include <trajectory_msgs/JointTrajectoryPoint.h>
 #include <trajectory_msgs/JointTrajectory.h>
 #include <chrono> 
-//#include <Eigen/Dense>
+#include <string>
 
 using namespace std;
 using namespace Eigen;
 
 kmr_iiwa::kmr_iiwa()
 {
-  current_arm_joint_values << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
-  
-  kdl_parser::treeFromFile("/home/medusa/kuka_ws/src/kmr_iiwa_carlos/kmr_iiwa_urdf/urdf/kmr_iiwa_carlos_kdl.urdf", tree_kmr_iiwa);
- 
-  if (!tree_kmr_iiwa.getChain("base_link_yaw", "adapter", kdl_chain_yaw_adapter)) 
-  {
-       cout<<"Could not initialize chain object";
-  }
-   if (!tree_kmr_iiwa.getChain("robot_odom", "adapter", kdl_chain_robot_odom_adapter)) 
-  {
-       cout<<"Could not initialize whole chain object";
-  }
-  jac_kdl_solver.reset(new KDL::ChainJntToJacSolver(kdl_chain_yaw_adapter));
-  fk_solver.reset(new KDL::ChainFkSolverPos_recursive(kdl_chain_robot_odom_adapter));
+    current_arm_joint_values << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0;
+    WeightMatrix.diagonal() << penaltyBaseX, penaltyBaseY, penaltyBaseYaw, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0;
+}
+
+void kmr_iiwa::kinematic_parameters(string robot_desc_string){
+    
+    if (!kdl_parser::treeFromString(robot_desc_string, tree_kmr_iiwa)){
+        ROS_ERROR("Failed to construct kdl tree from parameter server");
+        kdl_parser::treeFromFile("/home/alastair/catkin_ws/src/kmr_iiwa_carlos/kmr_iiwa_urdf/urdf/kmr_iiwa_carlos_kdl.urdf", tree_kmr_iiwa);
+        if (!tree_kmr_iiwa.getChain("base_link_yaw", "adapter", kdl_chain_yaw_adapter)) 
+        {
+            cout<<"Could not initialize chain object";
+        }
+        if (!tree_kmr_iiwa.getChain("robot_odom", "adapter", kdl_chain_robot_odom_adapter)) 
+        {
+            cout<<"Could not initialize whole chain object";
+        }
+        jac_kdl_solver.reset(new KDL::ChainJntToJacSolver(kdl_chain_yaw_adapter));
+        fk_solver.reset(new KDL::ChainFkSolverPos_recursive(kdl_chain_robot_odom_adapter));
+    }    
+   else{
+    if (!tree_kmr_iiwa.getChain("base_link_yaw", "iiwa_link_ee", kdl_chain_yaw_adapter)) 
+    {
+        cout<<"Could not initialize chain object";
+    }
+    if (!tree_kmr_iiwa.getChain("robot_odom", "iiwa_link_ee", kdl_chain_robot_odom_adapter)) 
+    {
+        cout<<"Could not initialize whole chain object";
+    }
+    jac_kdl_solver.reset(new KDL::ChainJntToJacSolver(kdl_chain_yaw_adapter));
+    fk_solver.reset(new KDL::ChainFkSolverPos_recursive(kdl_chain_robot_odom_adapter));
+   }
+    
 }
 
 
@@ -82,12 +101,10 @@ MatrixXd kmr_iiwa::PseudoInverse(MatrixXd matrixInput)
 }
 
 
-Matrix<double,10,1> kmr_iiwa::weighted_robust_mobile_axis_ik_diff(Matrix<double, 10, 1> joint, Matrix<double,6,1> desiredVel, Matrix<double,10,1> sedondaryVel, double penaltyBaseX, double penaltyBaseY, double penaltyBaseYaw)
+Matrix<double,10,1> kmr_iiwa::weighted_robust_mobile_axis_ik_diff(Matrix<double, 10, 1> joint, Matrix<double,6,1> desiredVel, Matrix<double,10,1> sedondaryVel)
 {
     Matrix<double,10,1> vel_output_joint;
-    DiagonalMatrix<double, 10, 10> WeightMatrix;
-    Matrix<double,10,10> Wmatrix;
-    WeightMatrix.diagonal() << penaltyBaseX, penaltyBaseY, penaltyBaseYaw, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0;
+    Matrix<double,10,10> Wmatrix;   
     Wmatrix = WeightMatrix;
     Matrix<double, 10, 10> invWeightMatrix;
     invWeightMatrix = Wmatrix.inverse();
